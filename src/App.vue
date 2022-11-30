@@ -1,11 +1,18 @@
 <template>
     <div class="app">
       <h1>Страница с постами</h1>
-      <v-my-button
-          @click="showDialog"
-      >
-        Создать пост
-      </v-my-button>
+      <div class="app__btns">
+        <v-my-button
+            class="app__btns-add"
+            @click="showDialog"
+        >
+          Создать пост
+        </v-my-button>
+        <v-select
+          v-model="selectedSort"
+          :options="sortOptions"
+        />
+      </div>
       <v-popup v-model:show="dialogVisible">
         <v-post-form
 
@@ -14,7 +21,7 @@
       </v-popup>
 
       <v-post-list
-          :posts="posts"
+          :posts="selectedPosts"
           @remove="removePost"
       />
     </div>
@@ -22,7 +29,8 @@
 
 <script>
   import VPostForm from './components/v-postForm'
-  import VPostList from "@/components/v-postList";
+  import VPostList from "@/components/v-postList"
+  import axios from "axios"
     export default {
         name: "App",
       components:{
@@ -31,14 +39,15 @@
       },
         data(){
             return{
-                posts: [
-                    {id:1, title: 'Заголовок', body:'Описание'},
-                    {id:2, title: 'Заголовок2', body:'Описание2'},
-                    {id:3, title: 'Заголовок3', body:'Описание3'}
-                ],
+                posts: [],
               title: '',
               body: '',
-              dialogVisible: false
+              dialogVisible: false,
+              selectedSort: '',
+              sortOptions: [
+                {value: 'title', name: 'По названию'},
+                {value: 'body', name: 'По содержанию'},
+              ]
             }
 
         },
@@ -52,20 +61,41 @@
           },
           showDialog(){
             this.dialogVisible = true
+          },
+          async fetchPosts(){
+            try {
+              const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10')
+              this.posts = response.data
+            }catch (e){
+              alert("Ошибка")
+            }
           }
+        },
+      mounted() {
+          this.fetchPosts()
+      },
+      computed:{
+        selectedPosts(){
+          return [... this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
         }
+
+      }
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     *{
         margin: 0;
         padding: 0;
         box-sizing: border-box;
     }
     .app{
-        padding: 16px;
-
+      padding: 16px;
+      &__btns{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+      }
     }
 
 </style>
