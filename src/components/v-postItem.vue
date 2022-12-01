@@ -24,13 +24,21 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .post{
-  border: solid 3px #20bf60;
-  padding: 8px;
+  padding: 1em 2em;
   margin-top: 16px;
+  color: black;
+  box-shadow: 5px 5px rgba(0,0,0,.15);
+  border-radius: 0% 0% 0% 0% / 0% 0% 0% 0% ;
+  transition: all .4s ease;
   align-items: center;
   display: flex;
   justify-content: space-between;
+  &:hover{
+    border-radius: 0% 0% 50% 50% / 0% 0% 5% 5% ;
+    box-shadow: 2.5px 2.5px rgba(0,0,0,.25);
+    cursor: pointer;
+  }
 }
 </style>

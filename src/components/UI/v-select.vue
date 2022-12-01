@@ -1,7 +1,7 @@
 <template>
   <select
       class="v-select"
-      v-model="localModelValue"
+      v-model="ModelValue"
       @change="changeOption"
   >
     <option disabled value="">Выберите из списка</option>
@@ -31,17 +31,7 @@ export default {
     changeOption(event){
       this.$emit('update:modelValue', event.target.value)
     }
-  },
-  computed: {
-    localModelValue: {
-      get() {
-        return this.modelValue
-      },
-      set(newValue) {
-        this.$emit('update:modelValue', newValue)
-      },
-    },
-  },
+  }
 }
 </script>
 

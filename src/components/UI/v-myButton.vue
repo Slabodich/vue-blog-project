@@ -13,8 +13,8 @@ export default {
   .btn{
     padding: 10px 15px;
     background: none;
-    border: solid 2px #15daa3;
-    color: #15daa3  ;
+    border: solid 2px #180404;
+    color: #180404  ;
     &:hover{
       cursor: pointer;
     }
