@@ -1,6 +1,11 @@
 <template>
     <div class="app">
       <h1>Страница с постами</h1>
+      <v-input
+          v-model="searchQuery"
+          placeholder="Поиск...."
+          class="app__search"
+      />
       <div class="app__btns">
         <v-my-button
             class="app__btns-add"
@@ -21,7 +26,7 @@
       </v-popup>
 
       <v-post-list
-          :posts="selectedPosts"
+          :posts="SortAndSearchPosts"
           @remove="removePost"
       />
     </div>
@@ -44,10 +49,12 @@
               body: '',
               dialogVisible: false,
               selectedSort: '',
+              searchQuery: '',
               sortOptions: [
                 {value: 'title', name: 'По названию'},
                 {value: 'body', name: 'По содержанию'},
-              ]
+              ],
+
             }
 
         },
@@ -77,8 +84,10 @@
       computed:{
         selectedPosts(){
           return [... this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+        },
+        SortAndSearchPosts(){
+          return this.selectedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
         }
-
       }
     }
 </script>
@@ -95,6 +104,9 @@
         display: flex;
         justify-content: space-between;
         margin-top: 16px;
+      }
+      &__search{
+        width: 100%;
       }
     }
 
