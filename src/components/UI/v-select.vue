@@ -4,7 +4,7 @@
       v-model="ModelValue"
       @change="changeOption"
   >
-    <option disabled value="">Выберите из списка</option>
+    <option value="" selected disabled >Выберите из списка</option>
     <option
         v-for="option in options"
         :key="option.value"
